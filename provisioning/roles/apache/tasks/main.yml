@@ -1,0 +1,16 @@
+    #
+    # Apache
+    #
+    - name: Apache インストール
+      yum: name=httpd
+
+    - name: Apache 起動
+      service: name=httpd state=started enabled=yes
+
+    - name: .htaccessを有効にする
+      replace:
+        dest=/etc/httpd/conf/httpd.conf
+        regexp='AllowOverride None'
+        replace='AllowOverride All'
+      notify:
+        - restart httpd

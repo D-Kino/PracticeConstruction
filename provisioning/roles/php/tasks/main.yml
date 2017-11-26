@@ -1,0 +1,23 @@
+    #
+    # PHP
+    #
+    - name: epel リポジトリ追加
+      yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+    - name: remi リポジトリ追加
+      yum: name=https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+    - name: PHP インストール
+      yum: name={{item}}
+      with_items:
+        - php70w
+        - php70w-mbstring
+        - php70w-mysql
+      notify:
+        - restart httpd
+
+    - name: PHPをタイムゾーンの設定
+      replace: >
+        dest=/etc/php.ini
+        regexp="^;date\.timezone ="
+        replace="date.timezone = Asia/Tokyo"

@@ -1,0 +1,21 @@
+- hosts: DevServer
+  become: yes
+  tasks:
+    #
+    # システム
+    #
+    - name: OS 最新化
+      yum: name=* state=latest
+
+    - name: DeveloperTool インストール
+      yum: name="@Development tools"
+
+    - name: vim インストール
+      yum: name=vim
+  roles:
+    - apache
+    - php
+    - mysql
+  handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted
